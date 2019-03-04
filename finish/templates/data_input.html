@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GeneLab - Micro-array data visualizer</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Barlow' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Cutive' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Bai Jamjuree' rel='stylesheet'>
+
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+    <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet">
+    <script crossorigin="anonymous"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <style>
+        .navbar-brand{
+            color: black;
+            font-family: 'Cutive';
+            font-size: 22px;
+            font-weight: bolder;
+        }
+
+        .nav-link{
+            font-family: 'Bai Jamjuree';
+            color: black;
+            font-size: 16px;
+        }
+
+        .navbar{
+            background-color: #87b5ff;
+        }
+
+        #cards{
+            padding: 10px;
+            margin-top: 25px;
+            background-color: #e9ecef;
+            border-radius: .45rem;
+        }
+        #nav_img {
+          padding: 5px;
+          width: 140px;
+        }
+
+        #geo {
+          width: 100%;
+          height: auto;
+        }
+
+        #ncbi {
+          width: 100%;
+          height: auto;
+        }
+
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-sm fixed-up ">
+    <div class="container">
+        <a class="navbar-brand" href="#">GeneLab</a>
+        <button aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarResponsive" data-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="media">
+        <img id="nav_img" src="{{url_for('static', filename='icon.png', width=1000, height=300, mode='crop', quality=95)}}"/>
+        <div class="media-body">
+            <h4 class="mt-0" style="font-family: 'Cutive'; font-weight: bold; padding-top: 16px;">GeneLab</h4>
+            <h5 class="mt-0" style="font-family: 'Barlow'; color: blue;">Micro-array data visualizer</h5>
+            <p style="padding-bottom: 5px; ">GeneLab is a web application supporting analysis and visualization of large genomic data, particularly for RNASeq and micro-array data.
+            GeneLab is designed to reduce the complexity of visualizing large gene expression data sets by representing them with the aid of dynamic
+                and interactive graphs.</p>
+        </div>
+    </div>
+</div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li aria-current="page" class="breadcrumb-item active">Data Import</li>
+    </ol>
+</nav>
+<div class="container">
+    <form action="/data_input" class="form-data_input border p-3" method="POST">
+        <h6 class="mt-0" style="font-family: 'Barlow'; color: blue; padding: 6px;">Import GEO Datasets</h6>
+        <p style="padding-left: 6px;">The query limits the results to GEO DataSets.</p>
+        <label for="accessionId" id="accessionId" style="padding: 5px; ">Accession Id: </label>
+        <input name="accessionId" style="margin: 10px; border-color: blue; border-width: thin" type="text">
+        <button class="btn btn-outline-primary btn-sm" style="margin-left: 25px" type="submit" value="Submit">Import</button>
+    </form>
+</div>
+<div class="container" id="cards">
+    <h6 class="mt-0" style="font-family: 'Barlow'; color: blue; padding: 10px;">Access Public Domain Datasets</h6>
+    <p style="padding-left: 10px;">If you cannot find a dataset, please try looking for it on the GEO website and then provide the accession number into GeneLab</p>
+    <div class="card-columns">
+    <div class="col-lg-6">
+        <div class="card" style="width: 300px; height: auto; margin-left: 180px; margin-top: 20px;" >
+            <div class="card-body">
+                <h4 class="card-title" style="color: blue">NCBI</h4>
+                <p class="card-text">The <strong>National Center for Biotechnology Information</strong> advances science
+                    and health by providing access to biomedical and genomic information.</p>
+                <a class="btn btn-outline-primary btn-md" href="https://www.ncbi.nlm.nih.gov/">Explore</a>
+            </div>
+            <img id="ncbi" src="{{url_for('static', filename='ncbi.png')}}"/>
+        </div>
+    </div>
+
+    <div class="card" style="width: 300px; height: auto; margin-left: 180px; margin-top: 20px">
+        <div class="card-body">
+            <h4 class="card-title" style="color: blue">GEO</h4>
+            <p class="card-text"><strong>Gene Expression Omnibus</strong> is a public functional genomics data repository supporting MIAME-compliant data submissions. Array- and
+                sequence-based data are accepted. Tools are provided to help users query and download experiments and curated gene expression profiles.</p>
+            <a class="btn btn-outline-primary btn-md" href="https://www.ncbi.nlm.nih.gov/geo/">Explore</a>
+        </div>
+        <img id="geo" src="{{url_for('static', filename='geo.gif')}}"/>
+    </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="page-footer font-small blue" style="background-color: #87b5ff ">
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2019 GeneLab
+        <a href="https://mdbootstrap.com/education/bootstrap/"></a>
+    </div>
+    <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
+</body>
+</html>

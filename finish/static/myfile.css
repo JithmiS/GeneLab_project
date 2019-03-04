@@ -1,0 +1,34 @@
+body {
+    /*background: url('index.jpg') no-repeat center center fixed;*/
+    /*-webkit-background-size: cover;*/
+    /*-moz-background-size: cover;*/
+    /*background-size: cover;*/
+    /*-o-background-size: cover;*/
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)),
+    url("index.jpg");
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+.navbar-brand{
+    color: white;
+    font-family: 'Cutive';
+    font-size: 26px;
+    font-weight: bolder;
+}
+
+.nav-link{
+    font-family: 'Bai Jamjuree';
+    color: white;
+    font-size: 18px;
+}
+
+.navbar{
+    background-color: rgba(255,255,255,0.2);
+}
+
+#para{
+    margin-top: 400px;
+    font-family: Abel;
+}

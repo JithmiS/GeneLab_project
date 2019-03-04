@@ -1,0 +1,24 @@
+Metadata-Version: 1.1
+Name: wgetter
+Version: 0.7
+Summary: Another command line download utility written in python
+Home-page: https://github.com/phoemur/wgetter
+Author: Fernando Giannasi <phoemur@gmail.com>
+Author-email: UNKNOWN
+License: MIT
+Download-URL: https://github.com/phoemur/wgetter/tarball/0.7
+Description: Wgetter is another command line download utility written completely in python.
+        It is based on python-wget (https://bitbucket.org/techtonik/python-wget/src)
+        with some improvements.
+        
+        It works on python >= 2.6 or python >=3.0
+        Runs on Windows or Linux or Mac 
+Platform: UNKNOWN
+Classifier: Environment :: Console
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: System :: Networking
+Classifier: Topic :: Utilities
