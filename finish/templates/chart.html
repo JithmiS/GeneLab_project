@@ -150,11 +150,14 @@
 </div>
 
 <div class="row block-inline">
-    <div class="container block-inline" id="plot1">
-        <div class="element col-md-6">
+    <div class="container" id="plot1">
+        <div class="element">
             {{ the_div|safe }}
         </div>
-        <div class="element col-md-6" id="plot2">
+        <div class="element" id="plot2">
+            {{ box_div2|safe }}
+        </div>
+        <div class="element" id="plot3">
             {{ box_div|safe }}
         </div>
     </div>
@@ -167,6 +170,7 @@
 <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.5.min.js"></script>
 {{ the_script|safe }}
 {{ box_script|safe }}
+{{ box_script2|safe }}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
