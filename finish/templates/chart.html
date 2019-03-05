@@ -2,49 +2,159 @@
 <html>
 <head>
     <title>GeneLab - Micro-array data visualizer</title>
+
+    <link href="{{url_for('.static',filename='styles.css')}}" rel="stylesheet" type="text/css"/>
+    <link href='https://fonts.googleapis.com/css?family=Barlow' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Cutive' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Bai Jamjuree' rel='stylesheet'>
+
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+
+    <script crossorigin="anonymous"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
     <link href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.5.min.css" rel="stylesheet">
     <link href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.0.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{{url_for('.static',filename='styles.css')}}"/>
 
+    <style>
+        .navbar-brand{
+            color: black;
+            font-family: 'Cutive';
+            font-size: 22px;
+            font-weight: bolder;
+        }
+
+        .nav-link{
+            font-family: 'Bai Jamjuree';
+            color: black;
+            font-size: 16px;
+        }
+
+        .navbar{
+            background-color: #87b5ff;
+        }
+
+        #cards{
+            padding: 10px;
+            margin-top: 25px;
+            background-color: #e9ecef;
+            border-radius: .45rem;
+        }
+        #nav_img {
+          padding: 5px;
+          width: 140px;
+        }
+
+        .input-group-addon{
+          padding: 10px;
+          font-family: 'Barlow';
+          color:blue;
+        }
+
+        #selectform{
+          display: inline-block;
+          border-radius: .45rem;
+        }
+
+        .container{
+          text-align:center;
+          display: inline-block;
+        }
+
+        .element{
+            margin: 0 20px;
+        }
+
+    </style>
 </head>
-<body>
-<div class="container search-form">
-    <div class="col-md-5">
-        <div class="col-sm-12">
-            <form>
-                <div id="dataset-data">
-                    <div class="form-group">
-                        <label for="sample-one">Sample 1 : </label>
-                        <select class="form-control" id="sample-one">
-                            {% for sample in sample_list %}
-                            <option value="{{sample}}">{{sample}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="sample-two">Sample 2 : </label>
-                        <select class="form-control" id="sample-two">
-                            {% for sample in sample_list %}
-                            <option value="{{sample}}">{{sample}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-            </form>
-            <div class="more-login-options">
-                <a href="#" class="btn-submit">Search</a>
-            </div>
+
+<nav class="navbar navbar-expand-sm fixed-up ">
+    <div class="container">
+        <a class="navbar-brand" href="#">GeneLab</a>
+        <button aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler" data-target="#navbarResponsive" data-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout') }}">Log out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="media">
+        <img id="nav_img"
+             src="{{url_for('static', filename='icon.png', width=1000, height=300, mode='crop', quality=95)}}"/>
+        <div class="media-body">
+            <h4 class="mt-0" style="font-family: 'Cutive'; font-weight: bold; padding-top: 16px;">GeneLab</h4>
+            <h5 class="mt-0" style="font-family: 'Barlow'; color: blue;">Micro-array data visualizer</h5>
+            <p style="padding-bottom: 5px; ">GeneLab is a web application supporting analysis and visualization of large
+                genomic data, particularly for RNASeq and micro-array data.
+                GeneLab is designed to reduce the complexity of visualizing large gene expression data sets by
+                representing them with the aid of dynamic
+                and interactive graphs.</p>
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="container">
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Data Import</a></li>
+        <li aria-current="page" class="breadcrumb-item active">Visualizations</li>
+    </ol>
+</nav>
+
+<body>
+<div class="container">
+<form action="{{ url_for('select') }}" class="form-inline border p-3" id="selectform" method="POST">
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon">Sample 01</span>
+            <select class="selectpicker form-control" name="sample1">
+                {% for sample in sample_list %}
+                <option %} %} endif if sample sample1== selected="sample1" value="{{sample}}" {% {%>{{sample}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">Sample 02</span>
+            <select class="selectpicker form-control" name="sample2">
+                {% for sample in sample_list %}
+                <option %} %} endif if sample sample2== selected="sample2" value="{{sample}}" {% {%>{{sample}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button class="btn btn-outline-primary btn-md" style="margin-left: 25px" type="submit" value="Submit">Go</button>
+    </div>
+</form>
+</div>
+</div>
+</div>
+</div>
+
+<div class="row block-inline">
+    <div class="container block-inline" id="plot1">
         <div class="element col-md-6">
             {{ the_div|safe }}
         </div>
-        <div class="element col-md-6">
+        <div class="element col-md-6" id="plot2">
             {{ box_div|safe }}
         </div>
     </div>
@@ -61,5 +171,15 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
+<!--<footer class="page-footer font-small blue"
+        style="background-color: #87b5ff; left:0px; bottom:0px; width:100%">
+
+    &lt;!&ndash; Copyright &ndash;&gt;
+    <div class="footer-copyright text-center py-3">© 2019 GeneLab
+        <a href="https://mdbootstrap.com/education/bootstrap/"></a>
+    </div>
+    &lt;!&ndash; Copyright &ndash;&gt;
+
+</footer>-->
 </body>
 </html>

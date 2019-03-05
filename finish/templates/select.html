@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--
+<div class="container search-form">
+    <div class="col-md-5">
+        <div class="col-sm-12">
+            <form action="/select" class="form-data_input border p-3" method="POST">
+                <div id="dataset-data">
+                    <div class="form-group">
+                        <label for="sample-one">Sample 1 : </label>
+                        <select class="form-control" id="sample-one">
+                            {% for sample in sample_list %}
+                            <option value="{{sample}}">{{sample}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sample-two">Sample 2 : </label>
+                        <select class="form-control" id="sample-two">
+                            {% for sample in sample_list %}
+                            <option value="{{sample}}">{{sample}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-outline-primary btn-sm" style="margin-left: 25px" type="submit" value="Submit">Import</button>
+            </form>
+-->
+
+<form action="{{ url_for('select') }}" class="form-inline" method="POST">
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon">Please select</span>
+            <select class="selectpicker form-control" name="sample1">
+                {% for sample in sample_list %}
+                <option value="{{sample}}">{{sample}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">Please select</span>
+            <select class="selectpicker form-control" name="sample2">
+                {% for sample in sample_list %}
+                <option value="{{sample}}">{{sample}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button class="btn btn-default" type="submit">Go</button>
+    </div>
+</form>
+</div>
+</div>
+</div>
+
+
+</body>
+</html>

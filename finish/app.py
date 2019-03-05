@@ -82,24 +82,27 @@ def signup():
         db.session.add(new_user)
         db.session.commit()
 
-        return '<h1>New user has been created!</h1>'
+        print ('New user has been created !!!!')
+        return redirect(url_for('data_input'))
         # return '<h1>' + form.username.data + ' ' + form.email.data + ' ' + form.password.data + '</h1>'
 
     return render_template('signup.html', form=form)
 
 
 sample_list = []
-
+accessionId = ''
+data = pd.DataFrame({'A': []})
 
 @app.route('/data_input', methods=['GET', 'POST'])
 @login_required
 def data_input():
     if request.method == 'POST':
+        global accessionId
         accessionId = request.form['accessionId']
         if (not get_dataframe(accessionId).empty):
             sample_list.append(get_dataframe(accessionId, True))
             print(sample_list)
-            return redirect(url_for('chart', accessionId=accessionId))
+            return redirect(url_for('select', accessionId=accessionId))
         else:
             return 'Error'
     return render_template('data_input.html')
@@ -117,21 +120,36 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+controls=[]
 
-@app.route("/chart")
+@app.route('/select', methods=['GET', 'POST'])
 @login_required
-def chart():
-    accessionId = request.args['accessionId']
-    data = get_dataframe(accessionId)
-    plot_scatter = create_scatter_plot(data)
-    plot_box = create_histogram(data)
-    script_scatter, div_scatter = components(plot_scatter)
-    script_box, div_box = components(plot_box)
+def select():
+    if request.method == 'POST':
+        global controls
+        sample1 = request.form.get('sample1')
+        sample2 = request.form.get('sample2')
+        controls.insert(0, sample1)
+        controls.insert(0, sample2)
+        print (controls)
+        global data
+        global accessionId
+        print('start')
+        print(controls)
+        print('accession')
+        print(accessionId)
+        data = get_dataframe(accessionId)
+        plot_scatter = create_scatter_plot(data)
+        plot_box = create_histogram(data)
+        script_scatter, div_scatter = components(plot_scatter)
+        script_box, div_box = components(plot_box)
 
-    return render_template("chart.html", bars_count='15',
-                           the_div=div_scatter, the_script=script_scatter,
-                           box_div=div_box, box_script=script_box, sample_list=sample_list[0])
-
+        return render_template("chart.html", bars_count='15',
+                               the_div=div_scatter, the_script=script_scatter,
+                               box_div=div_box, box_script=script_box, sample_list=sample_list[0],
+                               sample1=sample1, sample2=sample2)
+    controls=[]
+    return render_template("chart.html", sample_list=sample_list[0])
 
 def get_dataframe(accessionId, return_gse=False):
     print("[INFO] Downloading dataset...")
@@ -139,7 +157,7 @@ def get_dataframe(accessionId, return_gse=False):
     try:
         gse = GEOparse.get_GEO(geo=str(accessionId), destdir="./")
         print("[INFO] Download complete")
-        controls = ['GSM26864', 'GSM26863']
+        global controls
         pivoted_control_samples = gse.pivot_samples('VALUE')[controls]
         pivoted_control_samples = pivoted_control_samples.reset_index()
     except FileNotFoundError:
@@ -159,7 +177,7 @@ def create_histogram(data):
     column_names = list(data.columns)[1:100]
     values = Range1d(start=0, end=max(data.iloc[0, 1:100].values) * 1.5)
 
-    plot = figure(plot_height=500, plot_width=500,
+    plot = figure(plot_height=900, plot_width=900,
                   title='Histogram of ' + sample_name,
                   x_axis_label='ID_REF',
                   y_axis_label='VALUE',
@@ -210,11 +228,11 @@ def create_scatter_plot(data):
     source = ColumnDataSource(data=data)
     columns = list(data.columns)
 
-    p = figure(plot_height=500, plot_width=500)
+    p = figure(plot_height=900, plot_width=900)
     p.circle(x=columns[1], y=columns[2],
              source=source,
              size=5, color='green')
-    p.title.text = 'Estimate of relative transcript abundance using dChip PM only model'
+    p.title.text = ' Scatter plot showing the correlation of gene expression between ' + columns[1] + ' and ' + columns[2]
 
     p.xaxis.axis_label = 'Sample ' + columns[1]
     p.yaxis.axis_label = 'Sample ' + columns[2]
@@ -233,3 +251,5 @@ def create_scatter_plot(data):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
